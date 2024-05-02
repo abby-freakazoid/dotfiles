@@ -1,0 +1,108 @@
+# solstice and equinox are starts of astrological seasons
+
+# wheel of the year
+# -----------------
+* nov  1, samhain,  winter start
+* dec 21, yule,     winter solstice
+# jan 31, imbolc,   winter end
+
+* feb  1, imbolc,   spring start
+* mar 20, ostara,   spring equinox
+# apr 30, beltane,  spring end
+
+* may  1, beltane,  summer start
+* jun 21, litha,    summer solstice
+# jul 31, lughnasa, summer end
+
+* aug  1, lughnasa, fall start
+* sep 23, mabon,    fall equinox
+# oct 31, samhain,  fall end
+
+# joint legal holidays
+# --------------------
+* jan 01, Neujahr / New Year's Day
+* dec 25, 1. Weihnachtsfeiertag / Christmas Day
+
+# US: legal holidays (opm.gov)
+# ------------------
+# if holiday is Sat, preceding Fri will be holiday
+# if holiday is Sun, following Mon will be holiday
+# * jan 15,             bday Martin Luther King, Jr.
+!(y%4-1) & m=jan & d=20,Inauguration Day
+m=feb & w=mon & a=3,    Presidents' Day
+m=may & w=mon & b=1,    Memorial Day
+* jun 19,             Juneteenth: Black Independence Day
+m=jul & c=4,           Independence Day (holiday)
+m=sep & w=mon & a=1,    Labor Day (US)
+m=oct & w=mon & a=2,    Columbus Day
+* nov 11,             Veterans Day
+m=nov & w=thu & a=4,    Thanksgiving Day (US)
+
+m=jan & w=mon & a=3,Martin Luther King, Jr. Day
+# m=may & w=sun & a=2,Mother's Day
+# m=may & w=mon & (d>=18 & d<=24) , Victoria D
+# * nov 11 , Armistice Day
+# e=47, Mardi Gras
+# e=46, Ash Wednesday
+# e=7, Palm Sunday
+
+# DE: legal holidays (dgb.de)
+# ------------------
+e=2,    Karfreitag / Good Friday
+e=0-1,  Ostermontag / Easter Monday
+* may 01, Tag der Arbeit / Labor Day (DE)
+e=0-39, Vatertag / Father's Day (DE) | Christi Himmelfahrt / Acension Day
+e=0-50, Pfingstmontag / Pentecost Monday
+* oct 03, Tag der deutschen Einheit
+* dec 26, 2. Weihnachtsfeiertag
+
+# symbolic holidays
+# -----------------
+* apr 1, April April / April Fool's Day
+# US
+* mar 17, St. Patrick's Day
+# DE: BW, BY, ST
+* jan 06, Heilige Drei Könige (Epiphany)
+* feb 14, Valentine's Day
+* jul 04, Independence Day (US)
+# DE: BE
+* mar 08, Frauentag / Women's Day
+* 03 14, π (Pi) Day
+e=0,    Ostersonntag / Easter Sunday (Egg Hunt Day)
+e=0-49, Pfingstsonntag / Pentecost Sunday
+# e=0-56, Trinitatis / Trinity Sunday
+# DE: BW, BY, HE, NW, RP, SL, SN*, TH*
+e=0-60, Frohnleichnam / Feast of Corpus Christi
+* 06 28, τ (Tau) Day
+# DE: SL, Bayern*
+* 08 15, Mariä Himmelfahrt / Assumption of Mary
+# DE: TH
+* 09 20, Kindertag / Children's Day
+* 11 19, Men's Day
+m=jun & w=sun & a=3,Father's Day (US)
+# DE: BB, HB, HH, MV, NI, SN, ST, SH, TH
+* 10 31, Reformationstag / Reformation Day | Halloween
+* 11 01, Allerheiligen / All Saints' Day | Hallowmas
+# DE: SN
+m=nov & w=wed & (d>=16 & d<=22), Buß- und Bettag / Repentance and Prayer Day
+m=nov & w=sun &  d>26, Advent
+m=dec & w=sun & d<=24, Advent
+* dec 24, Heiligabend / Christmas Eve
+
+# ISO 3166-2: DE-XX
+# BB = Brandenburg
+# BE = Berlin
+# BW = Baden-Württemberg
+# BY = Bayern
+# HB = Bremen
+# HE = Hessen
+# HH = Hamburg
+# MV = Mecklenburg-Vorpommern
+# NI = Niedersachsen
+# NW = Nordrhein-Westfalen
+# RP = Rheinland-Pfalz
+# SH = Schleswig-Holstein
+# SL = Saarland
+# SN = Sachsen
+# ST = Sachsen-Anhalt
+# TH = Thüringen
