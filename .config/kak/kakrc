@@ -1,0 +1,158 @@
+# NOTE: having an autoload directory here will lead to the system autoload being ignored
+
+# Options
+# =======
+
+
+set-option global scrolloff	3,3  # always keep 3 lines and 3 columns displayed around the cursor
+
+# just use terminal colors :fivehead:
+#source ~/.config/kak/colors/dracula.kak
+
+
+# indentation
+# -----------
+
+set-option global tabstop		3
+
+# spaces by default
+
+# set-option global indentwidth	3
+
+# hook global WinSetOption filetype=python %{
+# 	# exceptions
+# 	set-option buffer indentwidth 0
+# }
+
+# tabs by default
+
+set-option global indentwidth	0
+
+# yaml looks jank with any indent other than 2
+hook global WinSetOption filetype=yaml %{
+	# exceptions
+	set-option buffer indentwidth 2
+}
+
+# hook global WinSetOption filetype=python %{
+# 	# exceptions
+# 	set-option buffer indentwidth 3
+# }
+
+
+#set-option global disabled_hooks '.+-trim-indent|.+-insert|.+-indent'
+
+
+# set-option global autowrap_column	72
+
+#add-highlighter -override global/whitespace ref whitespace
+
+# Dye various characters to make them stand out
+# https://unicode-table.com
+add-highlighter -override global/U+2013 regex '–' '0:green+f'
+add-highlighter -override global/U+2014 regex '—' '0:green+bf'
+add-highlighter -override global/math-symbols regex '[−×]' '0:cyan+f'
+
+add-highlighter global/ number-lines -relative -hlcursor  # equivalent to emacs' relative + absolute line numbers
+
+# Softwrap long lines
+add-highlighter global/ wrap -word -indent
+
+# add extra filetypes
+# /usr/share/kakoune-extra-filetypes/rc
+
+# FIXME
+# evaluate-commands %sh{
+#     # find "${kak_runtime}"/../kakoune-extra-filetypes/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
+#     # find "${kak_runtime}"/autoload/plugins/kakoune-extra-filetypes/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
+#     find ~/.nix-profile/share/kak/autoload/plugins/kakoune-extra-filetypes/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
+# }
+
+evaluate-commands %sh{
+    find "${kak_config}"/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
+}
+
+# add todo.txt
+# actually, this doesnt properly limit detection. any file will be highlighted as such
+# source /usr/local/src/github.com/nkoehring/kakoune-todo.txt/todotxt.kak
+#source /home/a/.l/share/kak/tf2-cfg.kak
+
+# kak-lsp
+# -------
+eval %sh{kak-lsp --kakoune -s $kak_session}  # Not needed if you load it with plug.kak.
+# lsp-enable  # below is better
+hook global WinSetOption filetype=(sh|rust|python|go|javascript|typescript|c|cpp) %{
+    lsp-enable-window
+    lsp-auto-hover-enable  # contains all
+    #lsp-auto-hover-insert-mode-enable  # only includes diagnostics
+    lsp-stop-on-exit-enable
+}
+
+# hook global WinSetOption filetype=(markdown) %{
+# 	lsp-enable-window
+# 	# lsp-auto-hover-enable  # contains all
+# 	lsp-auto-hover-insert-mode-enable  # only includes diagnostics
+# }
+
+map global user c :comment-line<ret> -docstring "comment-line"
+map global user C :comment-block<ret> -docstring "comment-block"
+
+map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
+map global insert <tab> '<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' -docstring 'Select next snippet placeholder'
+map global object a '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object <a-a> '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object e '<a-semicolon>lsp-object Function Method<ret>' -docstring 'LSP function or method'
+map global object k '<a-semicolon>lsp-object Class Interface Struct<ret>' -docstring 'LSP class interface or struct'
+map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
+map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
+
+map global user T :format<ret> -docstring "forma_t_"
+map global user t :lint<ret> -docstring "lin_t_"
+map global user M :make<ret> -docstring "make"
+
+map global user z ":e -scratch<ret>|zk link<ret>/" -docstring "zk link"
+
+map global user d :change-directory-to-buffer<ret> -docstring "cd"
+
+map global user ü 's\b<ret>~' -docstring "title case"
+
+# Format and Lint
+source %sh{echo "${kak_config}"/flint.kak}
+
+# display keyword with background/foreground reversed
+# add-highlighter global/ regex \b(TODO|NOTE|DONE)\b 0:default+rb
+add-highlighter global/ regex \b[A-Z]{3,}\b 0:default+rb
+
+# highlight column that exceeds limit
+# NOTE: this is dumb cuz i can just enforce this via terminal size
+# add-highlighter global/ column '%opt{autowrap_column}' default,red
+
+# detection extensions
+
+hook global BufCreate .*(sway|i3)/config\.d/.* %{
+	set-option buffer filetype i3
+}
+
+hook global BufCreate .*[jJ]ournal/.* %{
+	# set-option buffer lsp_config %{
+		# [language.asciidoc]
+		# filetypes = ["asciidoc"]
+		# roots = []
+		# command = "zk"
+		# args = ["lsp"]
+	    
+		# [language.markdown]
+		# filetypes = ["markdown"]
+		# roots = []
+		# command = "zk"
+		# args = ["lsp"]
+
+		# [language.asciidoc.settings.zk]
+		# [language.markdown.settings.zk]
+	# }
+
+	lsp-enable-window
+	lsp-auto-hover-enable  # contains all
+	#lsp-auto-hover-insert-mode-enable  # only includes diagnostics
+	lsp-stop-on-exit-enable
+}
