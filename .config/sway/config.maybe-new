@@ -1,0 +1,162 @@
+# see sway(5)
+# font -> see ~/.config/fontconfig/fonts.conf
+# ^ beware that it gets overwritten occasionally!
+
+set $terminal foot       # alacritty
+set $browser  firefox    # browser -c  # ungoogled, wayland? now eww
+#set $editor  editor -c  # not necessary anymore since i went back to posix. now i use terminal
+
+# autostart
+exec $terminal
+exec $browser
+exec keepassxc
+# exec $editor
+
+set $C  Control
+# alt; System Meta = Super
+# $A = Alt key
+set $A  Mod1
+# $M = Windows key
+set $M  Mod4
+set $S  Shift
+
+set $volLower  XF86AudioLowerVolume
+set $volMute   XF86AudioMute
+set $volRaise  XF86AudioRaiseVolume
+
+#set $menu  dmenu_path | dmenu | xargs swaymsg exec --
+set $menu  bemenu-run | xargs swaymsg exec --
+
+#workspace_layout tabbed
+
+default_border pixel 2
+#output * bg ~/media/image/jpeg/4/3540*52dc fill
+#output * bg ~/media.old/image/jpeg/8/2f43*cde6 fill
+#output * bg /srv/media/image/jpeg/a/guLh-56ZL-xiRM fill
+#output * bg /srv/media/wallpapers/linus.png fill
+
+
+# SWAYBAR CONFIG
+bar {
+	position top
+
+	# TODO: refactor: make this just cat output of script. script is run by cron
+	status_command while /usr/local/bin/status.sh; do sleep 5; done
+
+	# colors {
+	# 	statusline #e6e6e6
+	# 	background #222222
+	# 	inactive_workspace #32323200 #32323200 #5c5c5c
+	# }
+
+	output HDMI-A-1
+}
+
+bar {
+	position top
+	output DVI-D-1
+	status_command while /usr/local/bin/status.sh 2; do sleep 5; done
+}
+
+
+# IDLE CONFIG
+
+# exec swayidle -w \
+	#   timeout 10 '~/.local/bin/idle-audio.sh suspend' resume '~/.local/bin/idle-audio.sh resume'  # 450 = 7.5m
+		# before-sleep 'swaylock -f -c 000000' \
+	# timeout 3600 'systemctl suspend' \
+
+
+# INPUT CONFIG
+
+# input "1130:269:HID_046a:010d" {
+input "1046:291:Ducky_Ducky_One2_SF_RGB" {
+#	xkb_layout  de
+#	xkb_variant dvorak
+	xkb_layout custom
+#	xkb_model   pc104alt
+#	xkb_numlock enable
+#	xkb_options caps:ctrl_modifier
+}
+
+
+# KEY BINDS
+# do NOT bind C-Home
+# does NOT differentiate between left and right versions of keys
+
+# screenshot (with region select)
+bindsym Print		exec grim -g "$(slurp)" - | wl-copy  # | xsel -ib
+bindsym $C+Print	exec grim -g "$(slurp)"
+bindsym $C+$S+Print	exec grim
+
+bindsym --input-device=1118:765:Xbox_Wireless_Controller XF86HomePage  nop
+
+bindsym $volLower	exec amixer set Master 5%-
+bindsym $volMute	exec amixer set Master toggle
+bindsym $volRaise	exec amixer set Master 5%+
+
+# bindsym $volLower	exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+# bindsym $volMute	exec pactl set-sink-mute   @DEFAULT_SINK@ toggle
+# bindsym $volRaise	exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+bindsym $M+c		exec sway reload # Reload Config
+bindsym $M+$S+q		kill
+bindsym $M+q		exec swaynag -t warning -m 'Exit Sway?' -b 'YES' 'swaymsg exit'
+bindsym $M+Space	exec $menu
+
+bindsym $M+Return		exec $terminal
+#bindsym $M+Return		exec $editor
+bindsym $M+$S+Return	exec $browser
+
+# windows
+# TODO add scroll wheel to resize
+bindsym $M+f		fullscreen
+bindsym $M+t		layout tabbed
+bindsym $M+s		layout splith
+bindsym $M+$A+f		floating toggle
+bindsym $M+Down		resize shrink height 10px
+bindsym $M+Up		resize grow   height 10px
+bindsym $M+Left		resize shrink width  10px
+bindsym $M+Right	resize grow   width  10px
+
+floating_modifier $M	normal  # drag: M-leftclick  resize: M-rightclick
+
+# workspaces
+# ----------
+
+# switch to workspace
+bindsym $M+1  workspace number 1
+bindsym $M+2  workspace number 2
+bindsym $M+3  workspace number 3
+bindsym $M+4  workspace number 4
+bindsym $M+5  workspace number 5
+
+# exclam   = !
+# quotedbl = "
+# section  = §
+# dollar   = $
+# percent  = %
+
+bindsym $M+exclam      workspace number 1
+bindsym $M+quotedbl   workspace number 2
+#bindsym $M+apostrophe  workspace number 2
+bindsym $M+section     workspace number 3
+bindsym $M+dollar      workspace number 4
+bindsym $M+percent     workspace number 5
+
+# move focused container to workspace
+bindsym $M+$A+1  move container to workspace number 1
+bindsym $M+$A+2  move container to workspace number 2
+bindsym $M+$A+3  move container to workspace number 3
+bindsym $M+$A+4  move container to workspace number 4
+bindsym $M+$A+5  move container to workspace number 5
+
+bindsym $M+$A+exclam      move container to workspace number 1
+bindsym $M+$A+quotedbl   move container to workspace number 2
+#bindsym $M+$A+apostrophe  move container to workspace number 2
+bindsym $M+$A+section     move container to workspace number 3
+bindsym $M+$A+dollar      move container to workspace number 4
+bindsym $M+$A+percent     move container to workspace number 5
+
+# for_window [class="jetbrains-studio"] floating enable
+#workspace_layout default

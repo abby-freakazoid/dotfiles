@@ -1,0 +1,39 @@
+# IDLE CONFIG
+# ===========
+# NOTE: you gotta close outta sway n reopen it. it wont apply changes for this on config reload
+
+# exec swayidle -w \
+	#   timeout 10 '~/.local/bin/idle-audio.sh suspend' resume '~/.local/bin/idle-audio.sh resume'  # 450 = 7.5m
+		# before-sleep 'swaylock -f -c 000000' \
+	# timeout 3600 'systemctl suspend' \
+
+# 2 mins too fast
+# 5 mins too fast
+
+# actually, i dont want my PC to timeout automatically. ill tell it to lock when i wanna.
+# its easy with the shortcut now
+
+# exec swayidle -w \
+#     timeout $((10*60))   'swaylock -f -c 000000' \
+#     timeout $((10*60+5)) 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+
+# swayidle -w & swaylock -f is a necessary combo of flags
+
+# time is in seconds
+# after 10 mins, turn screen off
+# 10 mins is too short
+exec swayidle -w \
+    timeout $((15*60)) 'swaymsg "output * dpms off"' \
+    resume             'swaymsg "output * dpms on"'
+
+# two processes are needed to be able to target seperately with SIGUSR1
+
+# after an hour, lock and suspend
+exec swayidle -w \
+    timeout $((60*60)) 'swaylock -f -c 000000; loginctl suspend' \
+    resume             'swaymsg "output * dpms on"'  # just in case
+    
+
+# This will lock your screen after 15 minutes of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.

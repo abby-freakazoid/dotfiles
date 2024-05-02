@@ -1,0 +1,14 @@
+# NOTE: sway-output supports avif
+
+# output DP-3 pos 0 0
+# output DP-4 pos 0 0
+# output eDP-1 pos 1280 50
+# NOTE: do NOT reposition screen used for drawing in krita. krita will freak out and try to "correct" for the screen position by offsetting the cursor from the brush. no other applications do this.
+# output eDP-1 scale 1.33
+
+# output * bg ~/media/wallpaper/windows/arch.png fill
+output * bg ~/wallpaper/deltarune/posing-ralsei.avif fit #000000
+#output * bg ~/media/image/jpeg/4/3540*52dc fill
+#output * bg ~/media.old/image/jpeg/8/2f43*cde6 fill
+#output * bg /srv/media/image/jpeg/a/guLh-56ZL-xiRM fill
+#output * bg /srv/media/wallpapers/linus.png fill

@@ -1,0 +1,151 @@
+# KEYBINDS
+# ========
+
+# exclam   = !
+# quotedbl = "
+# section  = §
+# dollar   = $
+# percent  = %
+
+# NOTE: ModX does NOT differentiate between left and right
+#       versions of keys
+# Mod1 = Alt
+# Mod4 = Win
+
+# alt; System Meta = Super
+set $C   Control
+set $A	Mod1
+# set $A      Mod4
+set $M	Mod4
+# set $M      Mod1
+set $S   Shift
+
+
+# NOTE: do NOT bind C-Home on Cherry keyboard
+
+
+# F-Keys
+# ------
+
+# alsa-utils
+# notification for mute not necessary: keyboard lights up
+bindsym XF86AudioMute			exec amixer -D hw:PCH set Master toggle
+# pactl set-sink-mute   @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume	exec amixer -D hw:PCH set Master 4%-; exec notify-send -t 2000 "Volume Lowered" "$($XDG_HOME/bin/status/volume.sh)"
+# pactl set-sink-volume @DEFAULT_SINK@ -4%
+bindsym XF86AudioRaiseVolume    exec amixer -D hw:PCH set Master 4%+; exec notify-send -t 2000 "Volume Raised" "$($XDG_HOME/bin/status/volume.sh)" 
+# pactl set-sink-volume @DEFAULT_SINK@ +4%
+# bindsym XF86AudioMicMute
+
+# acpilight
+bindsym XF86MonBrightnessDown	exec xbacklight -1
+bindsym XF86MonBrightnessUp		exec xbacklight +1
+# bindsym XF86Display
+# bindsym XF86WLAN
+
+bindsym XF86Tools				exec sway reload
+# bindsym XF86Bluetooth
+# formerly Space+$C
+bindsym XF86Keyboard			input * xkb_switch_layout next; exec notify-send -t 2000 "Layout Switched" "$($XDG_HOME/bin/status/layout.sh)"
+bindsym dead_circumflex+$C		exec ~/.l/src/scripts/start-autoclick.sh
+bindsym dead_circumflex+$C+$S	exec ~/.l/src/scripts/stop-autoclick.sh
+# bindsym XF86Favorites
+# the favorites key is bound in chromium to toggle whether bookmarks are visible
+
+# Num Keys
+# --------
+
+# Letter Keys (layout changes prevent granulation)
+# -----------
+
+# bindsym c+$M		exec sway reload
+# bindsym r+$M		rename workspace to 1
+bindsym v+$M+$S	move to scratchpad
+bindsym v+$M		scratchpad show
+bindsym v+$M+$C	floating toggle
+bindsym e+$M		exec ~/.l/bin/dmenuunicode.sh
+bindsym s+$M		exec ~/.l/bin/oneliners.sh copy
+bindsym q+$M+$S	kill
+# bindsym q+$M+$S	kill -9
+bindsym q+$M		exec swaynag -t warning -m 'Exit Sway?' -b 'YES' 'swaymsg exit'
+
+# lock screen
+# bindsym l+$M	exec sleep 1 && pkill -SIGUSR1 swayidle
+bindsym l+$M	exec sleep 1 && ~/.l/src/scripts/swayidle-chooser.sh
+
+# Special Keys
+# ------------
+
+# NOTE:
+# - whenever i hit the insert key, its on accident
+# - insert is a good keybind in krita
+# bindsym Insert  nop
+
+bindsym Print		exec grim -g "$(slurp)" - | wl-copy
+# | xsel -ib
+bindsym Print+$C	exec grim -g "$(slurp)"
+bindsym Print+$C+$S	exec grim
+bindsym Print+$M	exec find -L ~/ ~/in/ -maxdepth 1 | grep grim | sort -r | sxiv -i
+
+# bindsym Space+$M+$S	exec sway reload
+bindsym Space+$M	exec $menu
+
+# NOTE:
+# - see main config for comments on why these are
+#   commented out
+# - do NOT bind Return+$S. it has special uses
+bindsym Return+$M		exec $terminal
+# bindsym Return+$M+$S	exec $editor
+bindsym Return+$M+$S	exec $browser
+
+
+# windows
+# -------
+
+# TODO add scroll wheel to resize
+
+bindsym $M+f        fullscreen
+bindsym $M+t        layout tabbed
+# i hit M+s all the time when i want M+f
+bindsym $M+$S+s     layout splitv
+bindsym $M+$A+f     floating toggle
+bindsym $M+Down     resize shrink height 10px
+bindsym $M+Up       resize grow   height 10px
+bindsym $M+Left     resize shrink width  10px
+bindsym $M+Right    resize grow   width  10px
+
+floating_modifier $M    normal  # drag: M-leftclick  resize: M-rightclick
+
+# workspaces
+# ----------
+
+# switch to workspace
+# bindsym $M+dead_circumflex	workspace 0:r34
+bindsym $M+1  workspace number 1
+bindsym $M+2  workspace number 2
+bindsym $M+3  workspace number 3
+bindsym $M+4  workspace number 4
+bindsym $M+5  workspace number 5
+
+# w/ shift
+bindsym $M+exclam      workspace number 1
+bindsym $M+quotedbl   workspace number 2
+#bindsym $M+apostrophe  workspace number 2
+bindsym $M+section     workspace number 3
+bindsym $M+dollar      workspace number 4
+bindsym $M+percent     workspace number 5
+
+# move focused container to workspace
+bindsym $M+$C+1  move container to workspace number 1
+bindsym $M+$C+2  move container to workspace number 2
+bindsym $M+$C+3  move container to workspace number 3
+bindsym $M+$C+4  move container to workspace number 4
+bindsym $M+$C+5  move container to workspace number 5
+
+# w/ shift
+bindsym $M+$C+exclam      move container to workspace number 1
+bindsym $M+$C+quotedbl   move container to workspace number 2
+#bindsym $M+$C+apostrophe  move container to workspace number 2
+bindsym $M+$C+section     move container to workspace number 3
+bindsym $M+$C+dollar      move container to workspace number 4
+bindsym $M+$C+percent     move container to workspace number 5

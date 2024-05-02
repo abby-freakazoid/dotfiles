@@ -1,0 +1,56 @@
+# this config is from my Artix system
+
+# see sway(5)
+# font -> see ~/.config/fontconfig/fonts.conf
+
+# default config as base:
+#include /etc/sway/config
+# unbindsym
+
+set $terminal LANG=C.UTF-8 nixGLIntel foot  # alacritty
+set $browser  firejail --profile=.l/cfg/firejail/nixGLIntel.local nixGLIntel brave
+#/usr/local/bin/firefox.sh  # browser -c  # ungoogled, wayland? now eww. no went back to firefox
+#set $editor   $terminal bash -c kak /tmp/abc  #editor -c  # not necessary anymore since i went back to posix. now i use terminal
+# i dont really use the editor and browser binds. i just start them with commands. im starting things with commands so much that i actually stopped using the terminal bind consistently. its good to keep it tho, just in case
+
+# set tx power to 1db (saves battery and stops jamming phone's wifi)
+exec sudo iw dev wlan0 set txpower limit 100
+
+exec xrdb $XDG_CONFIG_HOME/Xresources
+
+# configure audio
+exec amixer -D hw:PCH set Speaker off
+# exec amixer -D hw:PCH set Headphone 100% on
+exec amixer -D hw:PCH set Master 66% on
+
+# NOTE: STOP!
+# before you change this check that the following are true:
+# - computer was booted undocked
+# - computer was booted without headphones plugged in
+# if either is false, restore required conditions, then run
+# `pkill wireplumber; pkill pipewire; pipewire & wireplumber&`
+
+# start pipewire (replacement for pulse & jack)
+exec pipewire
+exec wireplumber
+
+# autostart
+exec $terminal
+# exec firejail brave
+# tmux is now autostarted from within .bashrc
+#exec $browser
+#exec keepassxc
+
+# set $menu  dmenu_path | dmenu | xargs swaymsg exec --
+# set $menu  dmenu-wl_run
+set $menu  "rofi -show combi -combi-modes drun,run -modes combi"
+
+#workspace_layout tabbed
+
+default_border pixel 0
+
+#workspace_layout default
+
+default_orientation vertical
+
+include $XDG_CONFIG_HOME/sway/config.d/*

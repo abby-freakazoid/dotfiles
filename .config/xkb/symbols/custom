@@ -1,0 +1,56 @@
+// /usr/share/X11/xkb/symbols/custom
+// ~/.config/xkb/symbols/custom
+
+// 2022-03-26  the below does not hold true for sway if the file is under the 2nd listed location
+
+// this had to be added to /usr/share/X11/xkb/rules/evdev.xml for it to be recognized
+// if it gets removed due to an update, see: askubuntu.com/questions/482678/how-to-add-a-new-keyboard-layout-custom-keyboard-layout-definition
+
+default  partial alphanumeric_keys
+xkb_symbols "basic" {
+
+  name[Group1]= "Custom German (no dead keys)";
+
+  include "de(nodeadkeys)"  // base
+
+  // reverse number row
+  // ------------------
+
+  // latin: 1,5; de: 2-4; latin type 4: 6-10
+  key <AE01>  { [     exclam, 1,  onesuperior,   exclamdown ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  //key <AE02>  { [   apostrophe, 2,  twosuperior,    oneeighth ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE02>  { [   quotedbl, 2,  twosuperior,    oneeighth ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE03>  { [    section, 3, threesuperior,    sterling ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE04>  { [     dollar, 4,   onequarter,     currency ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE05>  { [    percent, 5,      onehalf, threeeighths ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE06>  { [  ampersand, 6,     notsign,   fiveeighths ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE07>  { [      slash, 7,    braceleft, seveneighths ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE08>  { [  parenleft, 8,  bracketleft,    trademark ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE09>  { [ parenright, 9, bracketright,    plusminus ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+  key <AE10>  { [      equal, 0,   braceright,       degree ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+
+  // de(nodeadkeys)
+  //key <BKSL>  { [ numbersign, quotedbl, rightsinglequotemark, grave ], type[Group1] = "FOUR_LEVEL_ALPHABETIC" };
+
+
+  // ISO_Level3_Shift, 108 => Menu, 135
+  // RALT = alt gr  S-RALT = compose
+  key <RALT> { type[Group1]="TWO_LEVEL", [ ISO_Level3_Shift, Multi_key ] };
+
+
+  // Super_L, 133 => Alt_L, 64
+  //key <LWIN> { [ Alt_L, Meta_L ] };
+
+  // Alt_L, 64 => Super_L, 133
+  // key <LALT> { type[Group1] = "ONE_LEVEL", symbols[Group1] = [ Super_L ] };
+  //include "altwin(swap_lalt_lwin)"
+
+  // Super_R, 134 => ISO_Level3_Shift, 108 ?? compose
+  //key <RWIN> { type[Group1]="TWO_LEVEL", [ Multi_key, Multi_key ] };
+  //include "compose(rwin)"
+  //key <RWIN> { [ Menu ] };
+
+  // Menu, 135 => ISO_Level3_Shift (Alt_R), 108
+  // technically 135 is COMP, but MENU is aliased to COMP, so it's ok
+  //key <MENU> { [ Alt_R, Meta_R ] };
+};

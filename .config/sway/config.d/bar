@@ -1,0 +1,87 @@
+# SWAYBAR CONFIG
+
+# bar {
+#     position top
+
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+# }
+
+# on t480:
+# - eDP-1 = internal display
+# - DP-3 = dock hdmi
+# - HDMI-A-2 = laptop hdmi
+
+
+# internal
+bar {
+    position top
+
+modifier Mod1
+    output eDP-1
+
+    # normal update interval was 2 or 5 seconds. now sleep for 15 to match tmux
+    status_command while $XDG_HOME/bin/status/swaybar.sh; do sleep 15; done
+
+	# hidden does not make sense. i dont run solely tmux
+    # mode hide
+
+	pango_markup enabled
+    
+    font pango:monospace 15
+    colors {
+        # cc = 80%
+        # background #000000cc
+        # focused_workspace #ffffff #00000000 #ffffff
+    }
+}
+
+# external
+bar {
+    position top
+
+modifier Mod1
+    output DP-3
+    output DP-4
+    output HDMI-A-2
+
+    # normal update interval was 2 or 5 seconds. now sleep for 15 to match tmux
+    status_command while $XDG_HOME/bin/status/status.sh; do sleep 15; done
+
+    mode hide
+    
+    font pango:monospace 11
+    colors {
+        # cc = 80%
+        # background #000000cc
+        # focused_workspace #ffffff #00000000 #ffffff
+    }
+}
+
+# bar {
+#   position top
+
+#   # TODO: refactor: make this just cat output of script. script is run by cron
+#   status_command while /usr/local/bin/status.sh; do sleep 5; done
+
+#   # colors {
+#   #   statusline #e6e6e6
+#   #   background #222222
+#   #   inactive_workspace #32323200 #32323200 #5c5c5c
+#   # }
+
+#   output HDMI-A-1
+# }
+
+# bar {
+#   position top
+#   output DVI-D-1
+#   status_command while /usr/local/bin/status.sh 2; do sleep 5; done
+# }

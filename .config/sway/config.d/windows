@@ -1,0 +1,83 @@
+
+ # The following attributes may be matched with:
+
+ #       app_id
+ #           Compare value against the app id. Can be a
+ #           regular expression. If value is __focused__,
+ #           then the app id must be the same as that of
+ #           the currently focused window. app_id are
+ #           specific to Wayland applications.
+
+ #       class
+ #           Compare value against the window class. Can
+ #           be a regular expression. If value is __fo‐
+ #           cused__, then the window class must be the
+ #           same as that of the currently focused win‐
+ #           dow. class are specific to X11 applications.
+
+ #       con_id
+ #           Compare against the internal container ID,
+ #           which you can find via IPC. If value is
+ #           __focused__, then the id must be the same as
+ #           that of the currently focused window.
+
+ #       con_mark
+ #           Compare against the window marks. Can be a
+ #           regular expression.
+
+ #       floating
+ #           Matches floating windows.
+
+ #       id
+ #           Compare value against the X11 window ID.
+ #           Must be numeric.
+
+# at about 65% the background and foreground fight for attention
+# 70% is ok for serious work
+# 60% is great for showin off my background
+
+# for terminal 65% is great if fonts are excluded from dimming (ie terminal itself sets opacity, not sway)
+# for normal applications like mpv where this is not the case:
+# - 70% is not enough
+# - 80% is almost enough
+# - 85% also isnt there yet
+# - 90% almost
+# - 95% has watermark qualities but is still too strong
+# - 97% is still quite noticable
+# actually, its just a bad idea to let the bg bleed thru image / video displayers in general
+
+# set $opacity 0.95
+set $opacity 1
+
+# X11
+# ---
+for_window [class=".*"] opacity $opacity
+for_window [class="Minecraft .*"] opacity 1
+for_window [title="Terraria: .*"] opacity 1
+
+# for_window [class="Tor Browser"] floating enable
+
+for_window [title="sxiv"] opacity 1
+# for_window [title=".*"] opacity $opacity
+
+# Wayland
+# -------
+for_window [app_id=".*"] opacity $opacity
+
+for_window [app_id="foot"] opacity 1
+for_window [app_id="mpv"] opacity 1
+
+# for_window [class="jetbrains-studio"] floating enable
+# python3 contains pyplot windows
+
+# for_window [app_id="foot"] floating enable
+for_window [app_id="python3"] floating enable
+
+# figure out how to get popups working without 
+for_window [app_id="Tor Browser"] floating enable
+# for_window [app_id="Tor Browser"] move to workspace 3
+# [title="Extension: (NoScript) - NoScript Blocked Objects — Tor Browser"] floating enable
+
+# chromiums PiP
+for_window [title="Bild im Bild"] floating enable
+for_window [title="Bild im Bild"] opacity 1
