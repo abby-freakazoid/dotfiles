@@ -1,0 +1,133 @@
+#!/bin/sh
+# USER Bash Config, GPLv3+
+# ????, WOLFMAN
+# 2018, Andres Gongora <mail@andresgongora.com>
+# 2020, me
+
+export    PATH=$HOME/.bin:$PATH
+export  EDITOR='emacsclient --socket-name=/tmp/emacs1000/server --alternate-editor vis'
+export BROWSER=firefox-x11
+
+export   XDG_DATA_HOME=$HOME/.local/share
+export  XDG_CACHE_HOME=$HOME/.cache
+export XDG_CONFIG_HOME=$HOME/.config
+
+
+alias edit=$EDITOR
+alias browse=$BROWSER
+
+alias p=pmm
+# alias  pac='sudo emerge -an --autounmask'  # PACkage manager
+# alias dpac='pac --deselect'                # (soft-)uninstall packages
+# alias spac='pac -s'                        # search packages
+# alias cpac='pac -c'                        # clear packages
+# pac --sync
+# alias upac='pac -DNu world'    # upgrade packages; verbose flag needed? (-v)
+
+# alias  dis='sudo dispatch-conf'
+
+alias q=exit
+# alias e=                    # e ditor
+alias b=firefox-x11         # b rowser
+# alias d=ranger              # d irectory editor / file manager   really necessary??
+# alias m=                    # m edia player  <-  combination of the best of mpv and sxiv
+
+
+# XDG Violators
+
+# alias                    svn="svn --config-dir "$XDG_CONFIG_HOME"/subversion"
+# export               INPUTRC=$XDG_CONFIG_HOME/readline/inputrc
+# export        ADB_VENDOR_KEY=$XDG_CONFIG_HOME/android
+# export      ANDROID_AVD_HOME=$XDG_DATA_HOME/android
+# export      ANDROID_SDK_HOME=$XDG_CONFIG_HOME/android
+# export ANDROID_EMULATOR_HOME=$XDG_DATA_HOME/android
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export CCACHE_DIR=/var/cache/ccache
+
+
+# Shortcuts
+
+alias g="/var/git/$USER"
+alias p='/var/lib/portage'
+alias esed='sed -E'
+
+# alias clj='cd ~/doc/clojure-interpreter'
+# alias s=''  # was supposed to be a searx curl
+
+# Default flags
+
+alias cubicsdr='GDK_BACKEND=x11 CubicSDR'
+
+alias restart='sudo reboot'
+alias reboot='sudo reboot'
+alias poweroff='poweroff now'
+alias shutdown='poweroff now'
+
+alias c=clear
+alias xc='chmod +x'
+
+# A  show .*, except . and ..
+alias la='ls -A'
+# N  do not quote
+# h  use human-readable formatting, when applicable
+# v  natural number sort (2, 20, 21 -> 2, 3, 4)
+alias l='la --group-directories-first -Nhv'
+alias ll='l -l'
+
+alias rm='rm -i'
+alias mv='mv -i'
+alias kconf='pushd /usr/src/linux; mk menuconfig; popd'
+alias kmake='pushd /usr/src/linux; mk && mk modules_install && mk install; popd'
+alias vpn='pushd /etc/openvpn/; sudo killall -9 openvpn; sudo openvpn --config mullvad_de_fra.conf &> /dev/null & disown; popd'
+alias network-test='curl https://am.i.mullvad.net/connected'
+alias mk='sudo make -j9 -l14.4'
+
+alias q=exit
+
+# alias rsync='rsync -hv'
+
+# alias fsblk='lsblk -f'
+
+# alias fh='df -h'
+# alias uh='du -h'
+alias dl="youtube-dl -k --ignore-errors"
+# alias dl="youtube-dl -k --ignore-errors --download-archive $HOME/.archive/ytdl-list"
+
+alias sued='sudo vis'
+
+
+# Legacy related
+
+stty -ixon
+# alias cls=clear
+# alias del=rm
+
+
+HISTSIZE=
+HISTFILESIZE=
+HISTCONTROL=ignoreboth
+
+PS1+='$_X'
+
+# none="$(tput sgr0)"
+# trap 'echo -ne "${none}"' DEBUG
+
+bash_prompt_command() {
+
+  _X=$?
+  [ $_X -eq 0 ] && _X='' || _X="$_X "
+
+  local pwd="${PWD##*/}"
+  [ "$PWD" = $HOME ] && local pwd='~'
+  [ "$PWD" = '/' ] && local pwd='/'
+  
+  PWD=$(echo "$PWD" |
+    sed "s|$HOME|~|" |
+    esed 's|(/\.*.)[^/]*|\1|g; s/\.*.$//' #; s|/[^/]*$||'  # truncate PWD (mangles current dir)
+  )${pwd}  # tack current dir back on
+  tput smkx  # hotfix for broken utilities that read DEL key wrong
+}
+
+PROMPT_COMMAND=bash_prompt_command
+
+# neofetch
