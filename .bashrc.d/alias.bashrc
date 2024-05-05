@@ -221,6 +221,8 @@ alias mandb="echo sudo mandb"
 
 alias arch="uname"
 
+alias dog=doge
+
 #
 # nix
 #
@@ -277,7 +279,9 @@ alias lute='python -m lute.main --port 9876'
 
 alias tor-check="curl --silent https://check.torproject.org/ | grep 'using Tor' | sed 1q"
 
-alias alias-edit="kak /home/a/.bashrc.d/alias.bashrc"
+alias alias-edit="kak /home/a/.bashrc.d/alias.bashrc; . /home/a/.bashrc.d/alias.bashrc"
+alias env-edit="kak /home/a/.bashrc.d/env.bashrc; . /home/a/.bashrc.d/env.bashrc"
+alias completion-edit="kak /home/a/.bashrc.d/completion.bashrc; . /home/a/.bashrc.d/completion.bashrc"
 
 alias column-tsv="column --table --separator=$'\t'"
 
@@ -286,5 +290,7 @@ alias table='echo use column-* instead'
 alias basedir="echo USE dirname; dirname"
 
 # alias python-lint="flake8 --ignore=E203,E501,E722,W503"
+
+# alias cargo="cargo --config="
 
 unset -f ref_alias
