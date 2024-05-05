@@ -41,3 +41,7 @@ export RUSTC_WRAPPER=sccache  # cache compilation artifacts across crates
 
 # NOTE: if something asks for CMAKE_CXX_COMPILER, just install g++. it probably is not installed, so it can't find it
 # export CMAKE_CXX_COMPILER=g++
+
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
