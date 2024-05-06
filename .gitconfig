@@ -1,0 +1,49 @@
+; [color]
+; 	ui = auto
+; [core]
+; 	editor = kak  ; not necessary since I have $EDITOR set
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false  ; instead merge --ff
+	ff = true  ; when merge.ff is false, it'll try to create a merge commit for a simple pull
+[merge]
+	ff = false  ; will attempt to merge --ff branches by default
+[advice]
+	detachedHead = false
+[fetch]
+	writeCommitGraph = true  ; auto-generate git log --graph
+	prune = true  ; auto-prune stale remotes
+[rerere]
+	; REuse REcord REsolution
+	; auto-fix merge conflicts based on historical precedence
+	enabled = true
+[column]
+	ui = auto
+[branch]
+	sort = committerdate
+; always use git push --force-with-lease instead of just --force.
+; it'll check if we got a stale pull before pushing
+; [gpg]
+; 	format = ssh  ; use shh to sign instead of gpg. valid with different identity (email, etc). don't need to separately set up a gpg key on github.
+[alias]
+	; TODO: an alias that makes use of git branches' descriptions (not displayed by default)
+	config-edit = config --edit --global
+	log-s = log --show-signature ; git log -S <regex>
+	adog = log --all --decorate --oneline --graph
+	staash = stash --all
+	blame = blame -wCCC ;protip, use -L<start>,<end>
+	diff = diff --word-diff
+; auto-add pull requests
+; git ls-remote
+; git config remote.origin.fetch '+refs/pull/*:refs/remotes/origin/pull/*'
+; you can do signed pushes (push --signed). but github, gitlab, etc don't support it
+; git mainetance start (just runs a cron job to speed up stuff)
+; identity per directory
+; NOTE: it shows up in subdirectories, but not the directory itself
+[includeIf "gitdir:~/Quellcode/.github.com/abby-freakazoid/"]
+	path = ~/Quellcode/.github.com/abby-freakazoid/.gitconfig
+[maintenance]
+	repo = /home/a
+; [include]
+; 	path = ~/.gitconfig.large-repo.gitconfig
