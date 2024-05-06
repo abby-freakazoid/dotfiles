@@ -293,4 +293,7 @@ alias basedir="echo USE dirname; dirname"
 
 # alias cargo="cargo --config="
 
+alias vscode=codium
+alias code=codium
+
 unset -f ref_alias
