@@ -285,6 +285,11 @@ alias alias-edit="kak /home/a/.bashrc.d/alias.bashrc; . /home/a/.bashrc.d/alias.
 alias env-edit="kak /home/a/.bashrc.d/env.bashrc; . /home/a/.bashrc.d/env.bashrc"
 alias completion-edit="kak /home/a/.bashrc.d/completion.bashrc; . /home/a/.bashrc.d/completion.bashrc"
 
+edit-rc() {
+	kak /home/a/.bashrc.d/"$1".bashrc
+	. /home/a/.bashrc.d/"$1".bashrc
+}
+
 alias column-tsv="column --table --separator=$'\t'"
 
 alias table='echo use column-* instead'
