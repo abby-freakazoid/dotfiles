@@ -4,13 +4,13 @@
 # - interactive operations are safer
 # - using sudo will forego all aliases. instead use su or specify command in full
 # - do NOT make functions with same name of shell built-ins. they create infinite loops
-#   inversely, using 
+#   inversely, using
 
 # bootstrap
 # =========
 alias esed='sed -E'
 ref_alias() {
-  alias $1 | esed "s/.*='(.*)'/\1/"  # in loving memory of wrap.sh
+	alias $1 | esed "s/.*='(.*)'/\1/" # in loving memory of wrap.sh
 }
 
 #alias sudo='doas'  # yay uses sudo to install things. it gets v confused by the flags of doas
@@ -58,30 +58,29 @@ alias RMDIR="/usr/bin/rmdir"
 
 # ls
 # ==
-export LS_COLORS="*.avif=38;5;133"  # make avif files appear as regular media files
+export LS_COLORS="*.avif=38;5;133" # make avif files appear as regular media files
 if ! which exa &>/dev/null; then
-    alias              ls='ls --group-directories-first --color=auto --human-readable'
-    alias  l="$(ref_alias ls)"
-    alias la="$(ref_alias ls) --almost-all"
-    alias ll="$(ref_alias ls) -l --sort=time"
+	alias ls='ls --group-directories-first --color=auto --human-readable'
+	alias l="$(ref_alias ls)"
+	alias la="$(ref_alias ls) --almost-all"
+	alias ll="$(ref_alias ls) -l --sort=time"
 else
-    alias             ls='exa --group-directories-first'
-    alias  l="$(ref_alias ls) --sort=Name"
-    alias la="$(ref_alias ls) --all"
-    alias ll="$(ref_alias ls) --long --sort=date"
+	alias ls='exa --group-directories-first'
+	alias l="$(ref_alias ls) --sort=Name"
+	alias la="$(ref_alias ls) --all"
+	alias ll="$(ref_alias ls) --long --sort=date"
 fi
 
 # tree
 # ====
-alias tree="$(ref_alias ls) --tree"  # who needs to install an 80K executable when you have alias?
+alias tree="$(ref_alias ls) --tree" # who needs to install an 80K executable when you have alias?
 function t { tree --level="$@"; }
-
 
 alias less='less --raw-control-chars'
 # --raw-control-chars  resolve ANSI sequences
 
 # hide output bloat
-alias   ffmpeg='ffmpeg -hide_banner'
+alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner'
 # -hide_banner  hide spammy text where ffmpeg describes its build conditions
 alias milky='milkytracker -nosplash'
@@ -98,7 +97,7 @@ function cd {
 }
 
 function printf+wc {
-    printf "$@" | wc
+	printf "$@" | wc
 }
 
 # hacky way to fix scrolling manpages in tmux
@@ -159,18 +158,17 @@ function mount {
 # fi
 
 # pacman-based p-style syntax
-which pacman &> /dev/null
+which pacman &>/dev/null
 if [ $? -eq 0 ]; then
-  alias p='sudo pacman'
-  # alias pi='doas pacman --sync'                         # pacman -S;   install
-  # alias pr='doas pacman --remove --cascade --recursive' # pacman -Rcs; remove
-  # alias pu='doas pacman --sync --refresh --sysupgrade'  # pacman -Syu; upgrade; use second --refresh -y to force refresh
-  # alias pq='yay --sync --search'                   # yay -Ss;     query;   use second --search -s for AND expression
+	alias p='sudo pacman'
+	# alias pi='doas pacman --sync'                         # pacman -S;   install
+	# alias pr='doas pacman --remove --cascade --recursive' # pacman -Rcs; remove
+	# alias pu='doas pacman --sync --refresh --sysupgrade'  # pacman -Syu; upgrade; use second --refresh -y to force refresh
+	# alias pq='yay --sync --search'                   # yay -Ss;     query;   use second --search -s for AND expression
 fi
 
 # use 'pkill -SIGUSR1 swayidle' instead
 # alias swaylock="swaylock -c 000000"
-
 
 alias k=kak
 
@@ -197,7 +195,6 @@ alias k=kak
 # find . -maxdepth 1 -type f | sxiv-mv <destination>
 alias sxiv-mv="sxiv -io | xargs $(ref_alias mv) --target-directory"
 alias zk-sxiv="zk graph --format json > ~/.l/cache/zk.graph.json; pystache ~/journal/template.48-2.mustache ~/.l/cache/zk.graph.json | fdp -Tpng -ofdp.png; sxiv fdp.png &"
-
 
 # NOTE when sxiv says that there is no locale support, it means that it cant find the locale archive
 alias sxiv="sxiv -a"
@@ -231,9 +228,9 @@ alias dog=doge
 
 alias brave="firejail --profile=.l/cfg/firejail/nixGLIntel.local nixGLIntel brave"
 
-nix-grep () {
-    # grep "$1" nix-packages.csv | column -ts,
-    zstdcat $XDG_CACHE_HOME/nix-packages.csv.zst | grep "$1" | column -ts,
+nix-grep() {
+	# grep "$1" nix-packages.csv | column -ts,
+	zstdcat $XDG_CACHE_HOME/nix-packages.csv.zst | grep "$1" | column -ts,
 }
 
 # oneliner-grep () {
