@@ -13,6 +13,7 @@ append_path () {
 append_path "$HOME/Quellcode/scripts"
 append_path "$HOME/.local/share/android-home/cmdline-tools/latest/bin"
 append_path "$HOME/.yarn/bin"
+append_path "$HOME/Android/Sdk/platform-tools/"
 #append_path "$HOME/.l/bin"
 #append_path "$HOME/.l/python/bin"
 #append_path "$HOME/.nix-profile/bin"
