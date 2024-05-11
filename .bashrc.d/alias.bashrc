@@ -94,7 +94,11 @@ alias gdb='gdb --quiet'
 #function cs { cd -- "$@" && ls; }  # change + list directory
 # change + list in stderr directory
 function cd {
-	builtin cd "$@" && l >&2
+	# builtin cd "$@" && l >&2
+	__zoxide_z "${!#}" && l >&2
+}
+ii() {
+    __zoxide_zi "$@" && l >&2
 }
 
 function printf+wc {
