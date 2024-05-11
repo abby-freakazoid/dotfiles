@@ -303,6 +303,9 @@ alias basedir="echo USE dirname; dirname"
 alias vscode=codium
 alias code=codium
 
+# have been typing this by hand for a while, not new:
+alias shuf_fixed="shuf --random-source ~/.local/share/shuf.seed"
+
 # tried this before shuf_group-by-dir, but I store files and folder side-by-side, so it didn't work out
 # SEE: stackoverflow.com/questions/4269798/use-gnu-find-to-show-only-the-leaf-directories
 # find_only-leaf-dirs() {
