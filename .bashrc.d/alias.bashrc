@@ -24,6 +24,7 @@ core_count=$(lscpu -p=core | sed '/^#/d' | sort -u | wc -l)
 thread_count=$(lscpu -p=cpu | sed '/^#/d' | wc -l)
 load_limit=$(echo "$thread_count * 0.9" | bc -l)
 alias make="make -j$((core_count + 1)) -l$load_limit"
+alias parallel="parallel -j$((core_count + 1)) -l$load_limit"
 
 # kernel make config
 # ==================
