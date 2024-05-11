@@ -6,3 +6,4 @@ eval "$(rustup completions bash cargo)"
 eval "$(zoxide init --cmd i bash)"
 eval "$(cat /home/linuxbrew/.linuxbrew/etc/bash_completion.d/*)"
 . /home/a/.nix-profile/etc/profile.d/nix.sh
+# eval "$(atuin gen-completions --shell bash)"  # tried it out, and it broke starship.rs

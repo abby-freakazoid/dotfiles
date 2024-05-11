@@ -303,4 +303,11 @@ alias basedir="echo USE dirname; dirname"
 alias vscode=codium
 alias code=codium
 
+# tried this before shuf_group-by-dir, but I store files and folder side-by-side, so it didn't work out
+# SEE: stackoverflow.com/questions/4269798/use-gnu-find-to-show-only-the-leaf-directories
+# find_only-leaf-dirs() {
+# 	# find "$1" -type d -links 2
+# 	find "$1" -type d -exec sh -c '(ls -p "{}" | grep / >/dev/null) || echo "{}"' \;
+# }
+
 unset -f ref_alias
