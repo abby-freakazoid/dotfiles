@@ -1,4 +1,4 @@
-eval "$(starship init bash)"
+eval "$(~/.cargo/bin/starship init bash)"
 
 if [[ "$TERM_PROGRAM" =~ "vscode" ]]; then
 	export STARSHIP_CONFIG=~/.config/starship-vscode.toml
