@@ -1,3 +1,6 @@
+# limit my .bashrc.d/ to only run in non-interactive mode.
+# the shell my desktop is launced in keeps overriding settings set later
+
 #export LOCALE_ARCHIVE=/lib/locale/locale-archive  # needed for nixpkgs to recognize locales
 #export GPG_TTY=$(tty)  # necessary for git to work
 #export PYTHONPATH=/usr/local/lib/python3.10/site-packages/
@@ -45,3 +48,24 @@ export RUSTC_WRAPPER=sccache  # cache compilation artifacts across crates
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
+export PYPICKUP_INDEX_PATH=/home/a/.local/share/pypickup
+
+# force npm --global to install locally
+export NPM_PACKAGES="$HOME"/.local/share/npm
+export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+
+# export PAGER=bat  # man expects the pager to be less
+
+# exit # do NOT do this. will actually kill current running shell, not exit source early
+
+if [ -x "$(command -v tmux)" ] && # tmux is an executable
+[ -n "${DISPLAY}" ] && # DISPLAY is set
+[ -z "${TMUX}" ] && # TMUX is NOT set
+[ "$PWD" = "$HOME" ] && # directory shell was called in is HOME
+[[ $- == *i* ]] # we are interactive (may be checked at some earlier step tbh)
+then
+	# .197.181, .129.202
+	# export http_proxy=http://192.168.157.141:3128  # pixel-set-ssh-ip
+	# export https_proxy=$http_proxy
+	:
+fi

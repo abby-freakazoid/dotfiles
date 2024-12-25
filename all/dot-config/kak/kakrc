@@ -1,4 +1,8 @@
-# NOTE: having an autoload directory here will lead to the system autoload being ignored
+evaluate-commands %sh{
+    # NOTE: having an autoload directory here will lead to the system autoload being ignored
+    find "${kak_runtime}"/autoload -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
+    find "${kak_config}"/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
+}
 
 # Options
 # =======
@@ -68,34 +72,16 @@ add-highlighter global/ wrap -word -indent
 #     find ~/.nix-profile/share/kak/autoload/plugins/kakoune-extra-filetypes/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
 # }
 
-evaluate-commands %sh{
-    find "${kak_config}"/rc -type f -name \*\\.kak -exec printf 'source %s\n' '{}' \;
-}
 
 # add todo.txt
 # actually, this doesnt properly limit detection. any file will be highlighted as such
 # source /usr/local/src/github.com/nkoehring/kakoune-todo.txt/todotxt.kak
 #source /home/a/.l/share/kak/tf2-cfg.kak
 
-# kak-lsp
-# -------
-eval %sh{kak-lsp --kakoune -s $kak_session}  # Not needed if you load it with plug.kak.
-# lsp-enable  # below is better
-hook global WinSetOption filetype=(sh|rust|python|go|javascript|typescript|c|cpp) %{
-    lsp-enable-window
-    lsp-auto-hover-enable  # contains all
-    #lsp-auto-hover-insert-mode-enable  # only includes diagnostics
-    lsp-stop-on-exit-enable
-}
-
-# hook global WinSetOption filetype=(markdown) %{
-# 	lsp-enable-window
-# 	# lsp-auto-hover-enable  # contains all
-# 	lsp-auto-hover-insert-mode-enable  # only includes diagnostics
-# }
 
 map global user c :comment-line<ret> -docstring "comment-line"
 map global user C :comment-block<ret> -docstring "comment-block"
+map global user / :comment-line<ret> -docstring "comment-line"
 
 map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
 map global insert <tab> '<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' -docstring 'Select next snippet placeholder'
@@ -116,8 +102,19 @@ map global user d :change-directory-to-buffer<ret> -docstring "cd"
 
 map global user ü 's\b<ret>~' -docstring "title case"
 
+
+# case insensitive search
+# https://github.com/mawww/kakoune/issues/1272#issuecomment-285324040
+# map -docstring 'case insensitive search' global user '/' /(?i) -- interferes with comment mapping from nvim
+map -docstring 'case insensitive backward search' global user '<a-/>' <a-/>(?i)
+map -docstring 'case insensitive extend search' global user '?' ?(?i)
+map -docstring 'case insensitive backward extend search' global user '<a-?>' <a-?>(?i)
+
+# force predictable sort (don't ignore symbols)
+map global user s '|LANG=C sort<ret>' -docstring 'sort'
+
 # Format and Lint
-source %sh{echo "${kak_config}"/flint.kak}
+# source %sh{echo "${kak_config}"/flint.kak}
 
 # display keyword with background/foreground reversed
 # add-highlighter global/ regex \b(TODO|NOTE|DONE)\b 0:default+rb
@@ -156,3 +153,8 @@ hook global BufCreate .*[jJ]ournal/.* %{
 	#lsp-auto-hover-insert-mode-enable  # only includes diagnostics
 	lsp-stop-on-exit-enable
 }
+
+# Tutorial Mode
+
+# set-option -add global autoinfo normal
+

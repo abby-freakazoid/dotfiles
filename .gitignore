@@ -1,3 +1,5 @@
 # https://dotfiles.github.io/tutorials/
 # https://drewdevault.com/2019/12/30/dotfiles.html
-*
+#*
+
+local/

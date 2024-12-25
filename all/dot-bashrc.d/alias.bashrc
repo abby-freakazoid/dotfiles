@@ -74,8 +74,10 @@ fi
 
 # tree
 # ====
-alias tree="$(ref_alias ls) --tree" # who needs to install an 80K executable when you have alias?
-function t { tree --level="$@"; }
+if ! which exa &>/dev/null; then
+	alias tree="$(ref_alias ls) --tree" # who needs to install an 80K executable when you have alias?
+	function t { tree --level="$@"; }
+fi
 
 alias less='less --raw-control-chars'
 # --raw-control-chars  resolve ANSI sequences
@@ -98,7 +100,7 @@ function cd {
 	__zoxide_z "${!#}" && l >&2
 }
 ii() {
-    __zoxide_zi "$@" && l >&2
+	__zoxide_zi "$@" && l >&2
 }
 
 function printf+wc {
@@ -265,7 +267,8 @@ alias sync-progress=progress-sync
 alias rsync="rsync --human-readable --info=progress2,stats2 --timeout=30"
 
 # NOTE: this is to prevent double-syncing. usermode dnf has its own cache
-alias dnf="echo RUN AS ADMIN OR WITH /bin/dnf"
+# alias dnf="echo RUN AS ADMIN OR WITH /bin/dnf"
+alias dnf="dnf --cacheonly"
 
 alias rmlint="rmlint --progress"
 
@@ -274,6 +277,7 @@ alias mullvad-check="curl https://am.i.mullvad.net/connected"
 alias du="du -h"
 
 alias rsync-obsidian='rsync -az --inc-recursive --delete --exclude ".*" ~/Dokumente/Obsidian pixel:Documents/'
+alias rsync-dcim='rsync -az --remove-source-files pixel:DCIM/Camera/ Bilder/pixel/DCIM/Camera/'
 
 alias venv-activate='. .venv/bin/activate'
 
@@ -291,8 +295,9 @@ edit-rc() {
 }
 
 alias column-tsv="column --table --separator=$'\t'"
+alias column-csv="column --table --separator=,"
 
-alias table='echo use column-* instead'
+alias table='echo use column-tsv instead; :'
 
 alias basedir="echo USE dirname; dirname"
 
@@ -312,5 +317,159 @@ alias shuf_fixed="shuf --random-source ~/.local/share/shuf.seed"
 # 	# find "$1" -type d -links 2
 # 	find "$1" -type d -exec sh -c '(ls -p "{}" | grep / >/dev/null) || echo "{}"' \;
 # }
+
+alias psgrep=pgrep
+
+venv-create() {
+	! [ -d .venv ] && python3 -m venv .venv
+	venv-activate
+}
+
+# Usage: github-clone.sh URL
+# NOTE: ammendment: now dot dir by default
+
+# git clone $1 /usr/local/src/$(echo $1 | sed 's|.*://||')
+
+github-clone() {
+	path=~/Quellcode/.$(echo $1 | sed 's|.*://||')
+	! [ -d $path ] && git clone $1 $path
+	# use pushd instead of cd, so I can popd when I'm done
+	pushd $path && l >&2
+}
+
+# improvements over below:
+# - urls never contain spaces, so quotes are spurious
+# - now i can paste urls as is
+
+# Old Usage: git-clone PROTOCOL URL
+# NOTE: space is important
+
+# gitDir=~a/dev/remote
+# subDir="$(echo "$1" | sed 's|/|\t|' | cut -f1-2)"
+
+# mkdir -p "$gitDir"/"$subDir"; cd "$gitDir"/"$subDir" || exit $?
+
+#git clone "$1$2" /usr/local/src/"$2"
+
+alias whic=which
+# alias license="cargo generate-license"
+alias sloc=tokei
+alias loc=tokei
+alias cloc=tokei
+
+# NOTE: comments behind editor presets are for github stars
+
+# alias nvim-chad="NVIM_APPNAME=nvchad nvim" # 23.3k, almost nothing pre-included
+# alias nvim-lunar="NVIM_APPNAME=lunarvim nvim" # 17.6k, a lil jank. changed hands
+# alias nvim-lua="NVIM_APPNAME=nvimlua nvim" # 15.8k, almost nothing pre-included
+alias nvim-lazy="NVIM_APPNAME=lazyvim nvim" # 13.7k
+# alias nvim-astro="NVIM_APPNAME=nvim-astro nvim" # 12.1k, broken
+alias nvim-astro="NVIM_APPNAME=nvim-astro nvim" # 12.1k, broken
+alias astro=nvim-astro
+alias nvim=nvim-astro
+alias vim=nvim-astro
+# alias nvim-nyoom="NVIM_APPNAME=nyoom nvim" # 1.3k, broken?
+# alias nvim-cosmic="NVIM_APPNAME=cosmicnvim nvim" # 1.1k, broken / outdated
+
+# also tested for -nw (no window system / terminal / text only mode)
+alias emacs-space="emacs --init-directory ~/.config/spacemacs/" # 23.5k
+# alias emacs-doom="~/.config/emacs-doom/bin/doom run" # 18.7k, broken
+alias emacs-doom="emacs --init-directory ~/.config/emacs-doom/" # 18.7k, broken
+
+# alias emacs-purcell="emacs --init-directory ~/.config/purcell/" # 6.8k, refuses being closed by default
+# alias emacs-prelude="emacs --init-directory ~/.config/prelude/" # 5.1k, unclear how to enable evil mode
+# alias emacs-graphene="emacs --init-directory ~/.config/graphene/" # 5.1k, broken
+# alias emacs-centaur="emacs --init-directory ~/.config/centaur-emacs/" # 1.9k, reopens last file, even when I instruct it otherwise from cli
+
+alias helix=hx
+
+alias pgp=gpg
+
+touch() {
+	mkdir --parents "$(dirname "$@")"
+	/bin/touch "$@"
+}
+
+alias comp="echo use diff or uniq"
+alias count="echo use uniq"
+
+alias ipython=bpython
+
+alias filename=basename
+
+alias whisper="whisper --verbose False --model base --output_format vtt"
+
+alias astro-edit="astro /home/a/.config/nvim-astro/lua/"
+
+alias bat="bat --wrap=never"
+
+alias rg="rg --no-ignore-parent"
+
+alias my="$(ref_alias mv)"
+
+alias bar="$(ref_alias bat)"
+
+tmux-colors() {
+	for i in {0..255}; do
+		printf "\x1b[38;5;%smcolour%s\n" "${i}" "${i}"
+	done
+}
+
+alias gh-cli=gh
+
+alias where="which --all"
+
+alias sudoeit=sudoedit
+
+alias kak-edit="kak ~/.config/kak/kakrc"
+alias edit-kak=kak-edit
+
+alias sshd="/sbin/sshd -f ~/.ssh/sshd_config -h ~/.ssh/ssh_host_ed25519_key"
+
+# ! -t *UTF8 renders well, but small
+# ! -t ASCII, ASCIIi aren't picked up well
+# ! -t EPS (encapsulated PostScript) is an obscure format and requires conversion
+# ! -t PNG renders corrupt in sixel
+# -t ANSI, ANSI256 show up the best in terminal
+# -t PNG32, SVG, XPM render images viewable in sxiv
+alias qrencode="qrencode -t ANSI256 -l Q"
+
+# alias sort="LANG=C sort"
+
+alias figlet="figlet -d ~/.local/share/figlet"
+alias figlist="figlist -d ~/.local/share/figlet"
+alias showfigfonts="showfigfonts -d ~/.local/share/figlet"
+
+alias git-edit="git config --edit --global"
+
+# distutils was deprecated and moved into setuptools in Python 3.12
+# the docker compose subcommand was installed via:
+# curl -o ~/.docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64
+# chmod +x ~/.docker/cli-plugins/docker-compose
+alias docker-compose="docker compose"
+
+alias bpythop=bpytop
+
+alias lskblk=lsblk
+
+# cursor not released by default Shift+F12 on machines that use function keys
+alias virt-viewer="virt-viewer --hotkeys=release-cursor=ctrl+alt"
+
+alias edit-alias=alias-edit
+
+# alias monerod="monerod --detach --enable-dns-blocklist --out-peers 16 --no-igd --bootstrap-daemon-address auto --no-sync --check-updates disabled --non-interactive --max-concurrency 4"
+# alias monerod="monerod --detach --enable-dns-blocklist --out-peers 16 --no-igd --bootstrap-daemon-address auto --max-concurrency 4"
+
+MONERO_DIR=/nfs/imports/archive/.bitmonero
+
+# PULIC DNS var needed to fix DNS error
+alias monerod="DNS_PUBLIC='tcp://8.8.8.8' ~/Packages/monero-x86_64-linux-gnu-v0.18.3.4/monerod --prune-blockchain --enable-dns-blocklist --detach --max-concurrency=1 --data-dir=$MONERO_DIR"
+
+alias monerod-progress="tail -f $MONERO_DIR/bitmonero.log"
+alias monero-progress=monerod-progress
+
+alias hollywood="docker run --rm -it bcbcarl/hollywood"
+
+alias cmatrix=unimatrix
 
 unset -f ref_alias

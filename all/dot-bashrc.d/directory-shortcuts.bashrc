@@ -1,4 +1,4 @@
-#shopt -s cdable_vars
+shopt -s cdable_vars
 
 #tf2cfg=/home/a/.l/share/Steam/steamapps/common/"Team Fortress 2"/tf/custom/configs/cfg
 
@@ -8,3 +8,4 @@
 # mediadb="/srv/media-db"
 # usrl="/usr/local"
 # fstab="/etc/fstab"
+astrocommunity_plugins="$HOME/.local/share/nvim-astro/lazy/astrocommunity"

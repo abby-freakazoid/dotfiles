@@ -4,6 +4,8 @@
 ; 	editor = kak  ; not necessary since I have $EDITOR set
 [init]
 	defaultBranch = main
+[push]
+	autoSetupRemote = true
 [pull]
 	rebase = false  ; instead merge --ff
 	ff = true  ; when merge.ff is false, it'll try to create a merge commit for a simple pull
@@ -26,14 +28,23 @@
 ; it'll check if we got a stale pull before pushing
 ; [gpg]
 ; 	format = ssh  ; use shh to sign instead of gpg. valid with different identity (email, etc). don't need to separately set up a gpg key on github.
+; [color]
+; 	diff = always
+; [color "diff"]
+; 	word-diff = true
+; 	color-words = true
 [alias]
+	; NOTE: aliases can't shadow built-ins
 	; TODO: an alias that makes use of git branches' descriptions (not displayed by default)
-	config-edit = config --edit --global
+	; config-edit = config --edit --global
 	log-s = log --show-signature ; git log -S <regex>
-	adog = log --all --decorate --oneline --graph
-	staash = stash --all
-	blame = blame -wCCC ;protip, use -L<start>,<end>
-	diff = diff --word-diff
+	; adog = log --all --decorate --oneline --graph
+	log-adog = log --all --decorate --oneline --graph
+	l = log --graph --all --stat
+	st = stash --all
+	bl = blame -wCCC ;protip, use -L<start>,<end>
+	di = diff --color-words
+	undo = reset --soft HEAD^
 ; auto-add pull requests
 ; git ls-remote
 ; git config remote.origin.fetch '+refs/pull/*:refs/remotes/origin/pull/*'
@@ -41,8 +52,10 @@
 ; git mainetance start (just runs a cron job to speed up stuff)
 ; identity per directory
 ; NOTE: it shows up in subdirectories, but not the directory itself
-[includeIf "gitdir:~/Quellcode/.github.com/abby-freakazoid/"]
-	path = ~/Quellcode/.github.com/abby-freakazoid/.gitconfig
+[includeIf "gitdir:~/Quellcode/abby/"]
+	path = ~/Quellcode/abby/.gitconfig
+[includeIf "gitdir:~/Quellcode/work/"]
+	path = ~/Quellcode/work/.gitconfig
 [maintenance]
 	repo = /home/a
 ; [include]
