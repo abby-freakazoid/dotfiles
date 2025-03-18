@@ -460,7 +460,7 @@ alias edit-alias=alias-edit
 # alias monerod="monerod --detach --enable-dns-blocklist --out-peers 16 --no-igd --bootstrap-daemon-address auto --no-sync --check-updates disabled --non-interactive --max-concurrency 4"
 # alias monerod="monerod --detach --enable-dns-blocklist --out-peers 16 --no-igd --bootstrap-daemon-address auto --max-concurrency 4"
 
-MONERO_DIR=/nfs/
+MONERO_DIR=/nfs
 
 if [ "$HOSTNAME" == "fedora" ]; then
 	MONERO_DIR=$MONERO_DIR/exports
