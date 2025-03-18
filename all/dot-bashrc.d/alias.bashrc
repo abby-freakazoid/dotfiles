@@ -460,7 +460,15 @@ alias edit-alias=alias-edit
 # alias monerod="monerod --detach --enable-dns-blocklist --out-peers 16 --no-igd --bootstrap-daemon-address auto --no-sync --check-updates disabled --non-interactive --max-concurrency 4"
 # alias monerod="monerod --detach --enable-dns-blocklist --out-peers 16 --no-igd --bootstrap-daemon-address auto --max-concurrency 4"
 
-MONERO_DIR=/nfs/imports/archive/.bitmonero
+MONERO_DIR=/nfs/
+
+if [ "$HOSTNAME" == "fedora" ]; then
+	MONERO_DIR=$MONERO_DIR/exports
+else
+	MONERO_DIR=$MONERO_DIR/imports
+fi
+
+MONERO_DIR=$MONERO_DIR/archive/.bitmonero
 
 # PULIC DNS var needed to fix DNS error
 alias monerod="DNS_PUBLIC='tcp://8.8.8.8' ~/Packages/monero-x86_64-linux-gnu-v0.18.3.4/monerod --prune-blockchain --enable-dns-blocklist --detach --max-concurrency=1 --data-dir=$MONERO_DIR"
