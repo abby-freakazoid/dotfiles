@@ -4,7 +4,7 @@
 
 os:
 windows 95 thru 7 -> ubuntu -> arch -> gentoo -> … -> artix -> fedora
-daily drove bedrock, guix, void-musl, etc
+(daily drove bedrock, guix, void-musl, etc)
 
 shell:
 bash -> fish -> zsh -> bash
